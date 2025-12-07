@@ -2,6 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import api from "./api/axiosConfig";
+import { toast } from "react-toastify";
 
 export default function Home({ setToken }) {
   const { useState, useEffect } = React;
@@ -15,6 +16,7 @@ export default function Home({ setToken }) {
     if (typeof setToken === "function") setToken(null);
     localStorage.removeItem("token");
     navigate("/", { replace: true });
+    toast.info("Logged out"); 
   };
   useEffect(() => {
     let cancelled = false;

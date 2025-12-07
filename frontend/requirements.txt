@@ -1,3 +1,4 @@
 tailwind
 react-router-dom
 axios
+react-toastify

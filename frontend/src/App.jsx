@@ -5,13 +5,11 @@ import Home from "./Home";
 import Login from "./Login";
 import Signup from "./Signup";
 import api from "./api/axiosConfig";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-/**
- * AuthVerifier runs inside Router so it can navigate.
- * If token exists it calls GET /api/auth/protected (via axiosConfig).
- * - valid -> navigate to /home
- * - invalid -> clear token (stay on /)
- */
+
+
 function AuthVerifier({ token, setToken }) {
   const navigate = useNavigate();
 
@@ -48,6 +46,7 @@ function App() {
   }, [token]);
 
   return (
+    <>
     <Router>
       <AuthVerifier token={token} setToken={setToken} />
 
@@ -63,6 +62,8 @@ function App() {
         <Route path="*" element={<h2>404 - Page Not Found</h2>} />
       </Routes>
     </Router>
+    <ToastContainer position="top-right" autoClose={2000} theme="colored" />
+    </>
   );
 }
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import api from "./api/axiosConfig"; // <-- uses baseURL (http://localhost:5000/api/auth)
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -25,26 +26,19 @@ export default function Signup() {
       // POST /signup -> full URL: http://localhost:5000/api/auth/signup
       const res = await api.post("/signup", form);
       // successful creation -> backend sends 201; navigate to login
+      toast.success("Account created!");
       navigate("/");
-    } catch (err) {
-      console.error("Signup error:", err);
-      if (err.response) {
-        // duplicate email or other server messages
-        if (err.response.status === 409) {
-          setError("Email already in use. Please use a different email.");
-        } else if (err.response.data && err.response.data.message) {
-          setError(err.response.data.message);
-        } else {
-          setError(`Signup failed (${err.response.status})`);
-        }
+    }  catch (err) {
+      if (err.response?.status === 409) {
+        toast.error("Email already in use");
       } else {
-        setError("Signup failed. Check your network connection.");
+        toast.error("Signup failed");
       }
     } finally {
       setLoading(false);
     }
   };
-
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-sm">

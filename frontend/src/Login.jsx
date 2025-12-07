@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import api from "./api/axiosConfig";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Login({ setToken }) {
   const navigate = useNavigate();
@@ -18,7 +19,6 @@ export default function Login({ setToken }) {
     console.log("Submitting login:", form);
 
     try {
-      // POST /login -> http://localhost:5000/api/auth/login
       const res = await api.post("/login", form);
       console.log("Login response:", res.data);
 
@@ -34,15 +34,11 @@ export default function Login({ setToken }) {
       localStorage.setItem("token", token);
 
       // navigate to protected home
+      toast.success("Login successful!");
       navigate("/home");
+      
     } catch (err) {
-      console.error("Login error:", err);
-      if (err.response) {
-        const msg = err.response.data?.message || err.response.data?.error || "Login failed";
-        setError(msg);
-      } else {
-        setError("Login failed. Check your network connection.");
-      }
+      toast.error(err.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }

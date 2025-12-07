@@ -12,7 +12,6 @@ exports.signup = async (req, res) => {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    // Fast pre-check (not a replacement for unique index)
     const existing = await User.findOne({ email });
     if (existing) {
       return res.status(409).json({ message: "Email already in use" });
@@ -30,7 +29,6 @@ exports.signup = async (req, res) => {
     return res.status(201).json({ message: "User created" });
   } catch (err) {
     console.error("Signup error:", err);
-    // Handle duplicate-key from Mongo (race condition)
     if (err.code === 11000 && err.keyPattern && err.keyPattern.email) {
       return res.status(409).json({ message: "Email already in use" });
     }
