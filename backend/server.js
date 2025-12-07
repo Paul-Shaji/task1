@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const authRoutes = require("./routes/auth");
 const connectDB = require("./db/db");
-const authMiddleware = require("./middleware/auth"); // <-- use middleware, NOT routes
+const authMiddleware = require("./middleware/auth");
 
 const app = express();
 
