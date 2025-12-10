@@ -23,9 +23,7 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      // POST /signup -> full URL: http://localhost:5000/api/auth/signup
       const res = await api.post("/signup", form);
-      // successful creation -> backend sends 201; navigate to login
       toast.success("Account created!");
       navigate("/");
     }  catch (err) {

@@ -29,11 +29,9 @@ export default function Login({ setToken }) {
         return;
       }
 
-      // update parent state and localStorage
       if (typeof setToken === "function") setToken(token);
       localStorage.setItem("token", token);
 
-      // navigate to protected home
       toast.success("Login successful!");
       navigate("/home");
       

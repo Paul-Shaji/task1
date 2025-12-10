@@ -12,7 +12,7 @@ export default function Home({ setToken }) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // clear frontend auth
+
     if (typeof setToken === "function") setToken(null);
     localStorage.removeItem("token");
     navigate("/", { replace: true });
@@ -32,7 +32,6 @@ export default function Home({ setToken }) {
       } catch (error) {
         console.error("Failed to load profile:", error);
         if (!cancelled) {
-          // if unauthorized, clear token and send user to login
           const status = error?.response?.status;
           if (status === 401 || status === 403) {
             // token invalid/expired

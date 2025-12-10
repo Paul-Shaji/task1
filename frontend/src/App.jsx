@@ -17,7 +17,7 @@ function AuthVerifier({ token, setToken }) {
     let cancelled = false;
 
     const verify = async () => {
-      if (!token) return; // nothing to verify
+      if (!token) return;
       try {
         await api.get("/protected"); // hits: GET http://localhost:5000/api/auth/protected
         if (!cancelled) navigate("/home", { replace: true });
@@ -39,7 +39,6 @@ function AuthVerifier({ token, setToken }) {
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
 
-  // keep localStorage and state in sync
   useEffect(() => {
     if (token) localStorage.setItem("token", token);
     else localStorage.removeItem("token");
@@ -51,14 +50,9 @@ function App() {
       <AuthVerifier token={token} setToken={setToken} />
 
       <Routes>
-        {/* Always render Login at root; Login receives setToken to update App state */}
         <Route path="/" element={<Login setToken={setToken} />} />
-
         <Route path="/signup" element={<Signup />} />
-
-        {/* Protect /home on client side: only render if token present */}
         <Route path="/home" element={token ? <Home setToken={setToken} /> : <Navigate to="/" replace />} />
-
         <Route path="*" element={<h2>404 - Page Not Found</h2>} />
       </Routes>
     </Router>

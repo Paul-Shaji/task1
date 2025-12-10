@@ -41,7 +41,6 @@ exports.login = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Support login by email OR username (you can choose one)
     const query = email ? { email } : { username };
     const user = await User.findOne(query);
     if (!user) return res.status(400).json({ message: "User does not exist" });
